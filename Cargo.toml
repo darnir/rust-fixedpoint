@@ -2,5 +2,15 @@
 name = "fixedpoint"
 version = "0.1.0"
 authors = ["Darshit Shah <darnir@gmail.com>"]
+description = "A simple library to compute fixed points of a function"
+repository = "https://github.com/darnir/rust-fixedpoint"
+homepage = "https://github.com/darnir/rust-fixedpoint"
+keywords = ["optimization", "fixedpoint", "fixed", "point"]
+documentation = "https://docs.rs/fixedpoint"
+readme = "README.md"
+license = "MIT"
+
+[badges]
+travis-ci = { repository = "rust-fixedpoint" }
 
 [dependencies]

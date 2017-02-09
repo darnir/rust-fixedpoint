@@ -1,3 +1,23 @@
+//! # FixedPoint
+//!
+//! A simple library for computing the fixed point of a given function
+//!
+//! ## Example
+//! ```rust
+//! extern crate fixedpoint;
+//!
+//! use fixedpoint::fixedpoint;
+//!
+//! fn func_with_fixed_point(num: u32, param: &u32) -> u32 {
+//!     150 + (((num as f32 / param.clone() as f32).ceil() as u32)*100)
+//! }
+//!
+//! fn main() {
+//!      let val = fixedpoint(&func_with_fixed_point, 0, &150, None, None).unwrap();
+//!      println!("Fixed Point of function exists at: {}", val);
+//! }
+//! ```
+
 /// Compute the fixed point of a given function
 ///
 /// Given a function `func`, compute the fixed point of the function such that `func(x, args) = x`
@@ -7,6 +27,10 @@
 /// If a `maxval` is provided, then the fixedpoint computation will stop when the value of the
 /// function exceeds `maxval`. This is mostly useful in providing upper bounds on monotonic
 /// functions.
+///
+/// The `args` parameter is generic. So you can pass arbitrary data types to it that only the
+/// provided function needs to know how to interpret. This allows you to pass a `Option`, `struct`,
+/// `Result` or any other type of complex object as well.
 pub fn fixedpoint<T, U>(func: &Fn(U, &T) -> U, x0: U, args: &T, maxiter: Option<u32>, maxval: Option<U>) -> Result<U, ()>
 where U: std::cmp::PartialEq + std::cmp::PartialOrd + Copy {
     let mut itr = maxiter.unwrap_or(100);
