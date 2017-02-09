@@ -1,0 +1,6 @@
+[package]
+name = "fixedpoint"
+version = "0.1.0"
+authors = ["Darshit Shah <darnir@gmail.com>"]
+
+[dependencies]
