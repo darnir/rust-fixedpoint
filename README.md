@@ -18,6 +18,12 @@ Installation
 fixedpoint = "0.1"
 ```
 
+Warning
+-------
+
+I am still building this library and hence the API is unstable. Please be
+careful when using this library in your projects.
+
 License
 -------
 MIT

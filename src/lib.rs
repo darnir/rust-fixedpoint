@@ -18,6 +18,25 @@
 //! }
 //! ```
 
+#[macro_use]
+extern crate error_chain;
+
+pub mod errors {
+    // Create the Error, ErrorKind, ResultExt, and Result types
+    error_chain! {
+        errors {
+            ValueLimit
+            IterLimit(limit: usize) {
+                description("Max iteration limit exceeded")
+                display("Could not converge function after {} iterations", limit)
+            }
+        }
+    }
+}
+
+use errors::*;
+
+
 /// Compute the fixed point of a given function
 ///
 /// Given a function `func`, compute the fixed point of the function such that `func(x, args) = x`
@@ -31,17 +50,20 @@
 /// The `args` parameter is generic. So you can pass arbitrary data types to it that only the
 /// provided function needs to know how to interpret. This allows you to pass a `Option`, `struct`,
 /// `Result` or any other type of complex object as well.
-pub fn fixedpoint<T, U>(func: &Fn(U, &T) -> U, x0: U, args: &T, maxiter: Option<u32>, maxval: Option<U>) -> Result<U, ()>
+pub fn fixedpoint<T, U>(func: &Fn(U, &T) -> U, x0: U, args: &T, maxiter: Option<usize>, maxval: Option<U>) -> Result<U>
 where U: std::cmp::PartialEq + std::cmp::PartialOrd + Copy {
-    let mut itr = maxiter.unwrap_or(100);
+    let maxiter = maxiter.unwrap_or(100);
+    let mut itr = maxiter;
     let mut x = x0;
     let mut val = func(x0, args);
     while val != x {
         x = val;
         val = func(x, args);
         itr -= 1;
-        if itr == 0 || val > maxval.unwrap_or(val) {
-            return Err(());
+        if itr == 0 {
+            bail!(ErrorKind::IterLimit(maxiter));
+        } else if val > maxval.unwrap_or(val) {
+            bail!(ErrorKind::ValueLimit);
         }
     };
     Ok(val)
