@@ -18,6 +18,23 @@
 //! }
 //! ```
 
+
+// #![warn(cast_possible_truncation)]
+// #![warn(cast_possible_wrap)]
+// #![warn(cast_sign_loss)]
+// #![warn(filter_map)]
+// #![warn(if_not_else)]
+// #![warn(items_after_statements)]
+// #![warn(nonminimal_bool)]
+// #![warn(option_map_unwrap_or)]
+// #![warn(option_map_unwrap_or_else)]
+// #![warn(option_unwrap_used)]
+// #![warn(shadow_reuse)]
+// #![warn(shadow_same)]
+// #![warn(shadow_unrelated)]
+// #![warn(single_match_else)]
+// #![warn(wrong_pub_self_convention)]
+
 #[macro_use]
 extern crate error_chain;
 
