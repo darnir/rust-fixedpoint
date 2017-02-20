@@ -37,6 +37,8 @@
 
 #[macro_use]
 extern crate error_chain;
+#[macro_use]
+extern crate log;
 
 pub mod errors {
     // Create the Error, ErrorKind, ResultExt, and Result types
@@ -68,18 +70,22 @@ use errors::*;
 /// provided function needs to know how to interpret. This allows you to pass a `Option`, `struct`,
 /// `Result` or any other type of complex object as well.
 pub fn fixedpoint<T, U>(func: &Fn(U, &T) -> U, x0: U, args: &T, maxiter: Option<usize>, maxval: Option<U>) -> Result<U>
-where U: std::cmp::PartialEq + std::cmp::PartialOrd + Copy {
+where U: std::cmp::PartialEq + std::cmp::PartialOrd + Copy + std::fmt::Debug {
     let maxiter = maxiter.unwrap_or(100);
     let mut itr = maxiter;
     let mut x = x0;
     let mut val = func(x0, args);
     while val != x {
+        trace!("Iteration: {}", maxiter - itr);
         x = val;
         val = func(x, args);
+        trace!("\tx: {:?}; F(x): {:?}", x, val);
         itr -= 1;
         if itr == 0 {
+            debug!("Max Iterations reached. Last value: {:?}", val);
             bail!(ErrorKind::IterLimit(maxiter));
         } else if val > maxval.unwrap_or(val) {
+            debug!("Maximum value of function reached. Last value: {:?}", val);
             bail!(ErrorKind::ValueLimit);
         }
     };
