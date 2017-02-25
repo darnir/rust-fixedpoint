@@ -1,6 +1,6 @@
 [package]
 name = "fixedpoint"
-version = "0.2.0"
+version = "0.1.1"
 authors = ["Darshit Shah <darnir@gmail.com>"]
 description = "A simple library to compute fixed points of a function"
 repository = "https://github.com/darnir/rust-fixedpoint"
