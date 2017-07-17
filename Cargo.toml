@@ -14,5 +14,5 @@ license = "MIT"
 travis-ci = { repository = "rust-fixedpoint" }
 
 [dependencies]
-error-chain = "0.9"
+error-chain = "0.10"
 log = "0.3"

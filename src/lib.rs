@@ -19,6 +19,7 @@
 //! ```
 
 
+// Clippy Lints
 // #![warn(cast_possible_truncation)]
 // #![warn(cast_possible_wrap)]
 // #![warn(cast_sign_loss)]
@@ -35,11 +36,20 @@
 // #![warn(single_match_else)]
 // #![warn(wrong_pub_self_convention)]
 
+#![warn(missing_docs,
+        missing_debug_implementations,
+        missing_copy_implementations,
+        trivial_casts, trivial_numeric_casts,
+        unsafe_code,
+        unstable_features,
+        unused_import_braces, unused_qualifications)]
+
 #[macro_use]
 extern crate error_chain;
 #[macro_use]
 extern crate log;
 
+#[allow(missing_docs)]
 pub mod errors {
     // Create the Error, ErrorKind, ResultExt, and Result types
     error_chain! {
@@ -70,7 +80,7 @@ use errors::*;
 /// provided function needs to know how to interpret. This allows you to pass a `Option`, `struct`,
 /// `Result` or any other type of complex object as well.
 pub fn fixedpoint<T, U>(func: &Fn(U, &T) -> U, x0: U, args: &T, maxiter: Option<usize>, maxval: Option<U>) -> Result<U>
-where U: std::cmp::PartialEq + std::cmp::PartialOrd + Copy + std::fmt::Debug {
+where U: PartialEq + PartialOrd + Copy + std::fmt::Debug {
     let maxiter = maxiter.unwrap_or(100);
     let mut itr = maxiter;
     let mut x = x0;
